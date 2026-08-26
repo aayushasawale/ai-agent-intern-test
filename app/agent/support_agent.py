@@ -101,7 +101,7 @@ class SupportAgent:
         orders_path=None,
     ):
         self.retriever = retriever
-
+        self.last_order_id = None
         # Order lookup does not require a retriever.
         if orders_path is None:
             self.order_lookup = OrderLookup()
@@ -217,11 +217,44 @@ class SupportAgent:
         order_id = self._extract_order_id(message)
 
         if order_id is not None:
+            # Remember the order for follow-up questions.
+            self.last_order_id = order_id
+
             result = self.handle_order_question(order_id)
 
             return {
                 "type": "order",
                 "order_id": order_id,
+                "answer": result,
+            }
+
+        # ------------------------------------------------------------
+        # Follow-up question about the previously discussed order
+        # ------------------------------------------------------------
+
+        follow_up_words = {
+            "arrive",
+            "arrival",
+            "delivery",
+            "deliver",
+            "when will it",
+            "when should it",
+            "tracking",
+            "shipped",
+            "where is it",
+        }
+
+        message_lower = message.lower()
+
+        if (
+            self.last_order_id is not None
+            and any(word in message_lower for word in follow_up_words)
+        ):
+            result = self.handle_order_question(self.last_order_id)
+
+            return {
+                "type": "order",
+                "order_id": self.last_order_id,
                 "answer": result,
             }
        
