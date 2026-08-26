@@ -432,6 +432,7 @@ Create and activate a Python virtual environment:
 
 ```bash
 python -m venv .venv
+```
 
 
 
