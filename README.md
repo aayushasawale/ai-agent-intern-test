@@ -449,6 +449,6 @@ A short demonstration of the AI Support Agent covering:
 - Safe handling of an unknown order (`ORD-9999`)
 - Final automated regression test results (`33/33 passed`)
 
-[Watch the Demo Video](https://www.youtube.com/watch?v=Gt1zMvuUgzk)
+[Watch the Demo Video](https://youtu.be/MLnWtcXbcGM)
 
 
